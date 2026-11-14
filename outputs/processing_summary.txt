@@ -1,0 +1,23 @@
+AGRIPULSE - NISAR PROCESSING SUMMARY
+=============================================
+
+Study area: Faisalabad District, Pakistan
+Radar band: L-band
+Frequency: A
+Polarizations: HH and HV
+Observations: 30 October and 11 November 2026
+Projection: EPSG:32643
+Original pixel spacing: 10 metres
+Output map aggregation: 100 metres
+
+District pixels tested: 57334663
+
+HH - 30_Oct_2026: 54252621 valid pixels
+HH - 11_Nov_2026: 55476918 valid pixels
+HH - change: 54252621 valid pixels
+HV - 30_Oct_2026: 54252621 valid pixels
+HV - 11_Nov_2026: 55476918 valid pixels
+HV - change: 54252621 valid pixels
+
+Change maps use common valid pixels only.
+Backscatter changes are not direct soil-moisture or crop-health measurements.

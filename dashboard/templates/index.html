@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AgriPulse | Satellite Intelligence</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+</head>
+
+<body>
+
+    <div class="dashboard">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">✦</div>
+
+                <div>
+                    <h2>AGRIPULSE</h2>
+                    <span>EARTH OBSERVATION</span>
+                </div>
+            </div>
+
+            <div class="nav-label">WORKSPACE</div>
+
+            <nav>
+                <a href="#overview" class="nav-link active">
+                    <span>◈</span> Overview
+                </a>
+
+                <a href="#radar" class="nav-link">
+                    <span>◎</span> Radar Explorer
+                </a>
+
+                <a href="#comparison" class="nav-link">
+                    <span>⇄</span> Temporal Comparison
+                </a>
+
+                <a href="#insights" class="nav-link">
+                    <span>▤</span> District Insights
+                </a>
+
+                <a href="#methodology" class="nav-link">
+                    <span>⌘</span> Methodology
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="status-dot"></div>
+                SYSTEM READY
+                <span>LOCAL PROCESSING</span>
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <div>
+                    <span class="breadcrumb">
+                        MONITORING / PAKISTAN / PUNJAB
+                    </span>
+
+                    <h3>Satellite Intelligence Dashboard</h3>
+                </div>
+
+                <div class="topbar-right">
+                    <span class="live-dot"></span>
+                    DATA AVAILABLE
+                </div>
+
+            </header>
+
+
+            <!-- OVERVIEW -->
+
+            <section id="overview" class="section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">DISTRICT MONITORING</span>
+                        <h1>Faisalabad District</h1>
+                        <p>
+                            Agricultural radar observations powered by
+                            NASA-ISRO NISAR.
+                        </p>
+                    </div>
+
+                    <div class="date-badge">
+                        30 OCT — 11 NOV 2026
+                    </div>
+                </div>
+
+
+                <div class="metrics-grid">
+
+                    <div class="metric-card">
+                        <span>HH MEDIAN CHANGE</span>
+                        <h2>-0.212 <small>dB</small></h2>
+                        <p>12-day observation difference</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <span>HV MEDIAN CHANGE</span>
+                        <h2>-0.170 <small>dB</small></h2>
+                        <p>12-day observation difference</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <span>RADAR BAND</span>
+                        <h2>L-BAND</h2>
+                        <p>Frequency A · HH / HV</p>
+                    </div>
+
+                    <div class="metric-card">
+                        <span>OBSERVATION INTERVAL</span>
+                        <h2>12 <small>DAYS</small></h2>
+                        <p>Two NISAR acquisitions</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- RADAR EXPLORER -->
+
+            <section id="radar" class="section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">SATELLITE IMAGERY</span>
+                        <h2>Radar Explorer</h2>
+                        <p>Explore processed HH and HV backscatter maps.</p>
+                    </div>
+                </div>
+
+                <div class="panel">
+
+                    <div class="panel-header">
+                        <h3>Backscatter Visualisation</h3>
+
+                        <select id="radar-map">
+                            <option value="HH_30_Oct.png">HH · 30 October</option>
+                            <option value="HH_11_Nov.png">HH · 11 November</option>
+                            <option value="HV_30_Oct.png">HV · 30 October</option>
+                            <option value="HV_11_Nov.png">HV · 11 November</option>
+                        </select>
+                    </div>
+
+                    <div class="map-container">
+                        <img id="radar-image"
+                             src="/maps/HH_30_Oct.png"
+                             alt="NISAR backscatter map">
+                    </div>
+
+                    <p class="map-caption">
+                        Processed NISAR Frequency A · Faisalabad District
+                    </p>
+
+                </div>
+
+            </section>
+
+
+            <!-- TEMPORAL COMPARISON -->
+
+            <section id="comparison" class="section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">CHANGE DETECTION</span>
+                        <h2>Temporal Comparison</h2>
+                        <p>
+                            Backscatter differences between two observation dates.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="comparison-grid">
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>HH Change</h3>
+                            <span class="tag">HH</span>
+                        </div>
+
+                        <img src="/maps/HH_change.png"
+                             alt="HH temporal change map">
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h3>HV Change</h3>
+                            <span class="tag">HV</span>
+                        </div>
+
+                        <img src="/maps/HV_change.png"
+                             alt="HV temporal change map">
+                    </div>
+
+                </div>
+
+                <div class="panel interpretation">
+                    <h3>Understanding the changes</h3>
+
+                    <p>
+                        Negative values indicate a decrease in radar
+                        backscatter between the two observations.
+                        Positive values indicate an increase.
+                    </p>
+
+                    <p>
+                        These differences represent radar-observed
+                        changes and are not direct measurements of
+                        soil moisture or crop health.
+                    </p>
+                </div>
+
+            </section>
+
+
+            <!-- DISTRICT INSIGHTS -->
+
+            <section id="insights" class="section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">ANALYTICS</span>
+                        <h2>District Insights</h2>
+                        <p>Statistics generated from valid radar pixels.</p>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Backscatter Statistics</h3>
+                        <span class="tag">LIVE FROM CSV</span>
+                    </div>
+
+                    <div class="table-wrapper">
+                        <table id="statistics-table">
+                            <thead>
+                                <tr>
+                                    <th>POLARIZATION</th>
+                                    <th>OBSERVATION</th>
+                                    <th>VALID PIXELS</th>
+                                    <th>COVERAGE</th>
+                                    <th>MEAN (dB)</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">
+                                        Loading statistics...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- METHODOLOGY -->
+
+            <section id="methodology" class="section">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">TECHNICAL INFORMATION</span>
+                        <h2>Methodology</h2>
+                    </div>
+                </div>
+
+                <div class="method-grid">
+
+                    <div class="method-card">
+                        <span>01</span>
+                        <h3>Data Source</h3>
+                        <p>
+                            NASA-ISRO NISAR Level 2 GCOV
+                            satellite observations.
+                        </p>
+                    </div>
+
+                    <div class="method-card">
+                        <span>02</span>
+                        <h3>Radar Processing</h3>
+                        <p>
+                            Frequency A HH/HV backscatter,
+                            quality masking and conversion to dB.
+                        </p>
+                    </div>
+
+                    <div class="method-card">
+                        <span>03</span>
+                        <h3>Spatial Analysis</h3>
+                        <p>
+                            Faisalabad District polygon extraction
+                            and spatial aggregation.
+                        </p>
+                    </div>
+
+                    <div class="method-card">
+                        <span>04</span>
+                        <h3>Temporal Analysis</h3>
+                        <p>
+                            Difference between 30 October and
+                            11 November 2026 using common valid pixels.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <footer>
+                AGRIPULSE · NISAR AGRICULTURAL RADAR MONITORING
+                <span>SCIENTIFIC PROTOTYPE</span>
+            </footer>
+
+        </main>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+</html>
