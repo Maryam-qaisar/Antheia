@@ -1,449 +1,657 @@
-# Antheia
+# 🌍 ANTHEIA — Satellite Intelligence for Agricultural Monitoring
 
-## Satellite-Based Agricultural Radar Monitoring for Faisalabad District, Pakistan
+### An Earth Observation and Agricultural Radar Monitoring Platform
 
-**NASA Space Apps Challenge 2026**  
-**Team: Orbit IQ**
-
-Antheia is a satellite-based agricultural radar monitoring platform developed using NASA-ISRO Synthetic Aperture Radar (NISAR) Level-2 Geocoded Covariance Matrix (GCOV) data.
-
-The project analyses L-band radar backscatter observations over Faisalabad District, Punjab, Pakistan, to explore spatial patterns and temporal changes between satellite acquisitions.
-
-By combining satellite data processing, geospatial analysis, statistical summaries, and an interactive web dashboard, Antheia makes complex radar observations more accessible to researchers, students, and other users interested in understanding changes across agricultural landscapes.
+**Developed by:** ORBIT IQ  
+**Project:** Antheia  
+**Study Area:** Faisalabad District, Punjab, Pakistan  
+**Primary Data Source:** NASA–ISRO NISAR Mission  
+**Radar Frequency:** L-Band  
+**Polarizations:** HH and HV  
 
 ---
 
 ## 1. Project Overview
 
-Agriculture plays an important role in Pakistan's economy. Monitoring agricultural landscapes across large geographical areas can be challenging, particularly when conventional optical satellite imagery is affected by cloud cover.
+**Antheia** is a satellite-based agricultural monitoring and Earth observation platform designed to explore spatial and temporal variations in radar backscatter across Faisalabad District, Pakistan.
 
-Antheia demonstrates how Synthetic Aperture Radar (SAR) observations can support the monitoring of agricultural landscapes. Unlike optical sensors, radar can collect observations through cloud cover and during both daytime and nighttime.
+The project uses observations from the **NASA–ISRO Synthetic Aperture Radar (NISAR)** mission to investigate how radar signals change across different geographical locations and observation periods.
 
-The project uses two NISAR observations to examine radar backscatter over Faisalabad District. It processes two polarization channels, HH and HV, compares observations from different acquisition dates, and presents the results through spatial visualizations and district-level statistics.
+Unlike conventional optical satellite imagery, radar-based Earth observation allows the analysis of surface characteristics using microwave signals. This makes Synthetic Aperture Radar (SAR) particularly useful for studying land surfaces and vegetation under different environmental conditions.
 
-### Project Objectives
+Antheia transforms processed satellite observations into an interactive dashboard where users can:
 
-- Analyse NISAR L-band radar observations over Faisalabad District.
-- Process HH and HV radar polarization data.
-- Generate spatial backscatter maps for two acquisition dates.
-- Identify temporal changes in radar backscatter.
-- Calculate district-level statistical summaries.
-- Provide interactive visual exploration of radar observations.
-- Present scientific interpretations of observed backscatter changes.
-- Demonstrate the potential of satellite radar observations for agricultural landscape monitoring.
+- Explore geographical boundaries and locations.
+- Visualize HH and HV radar backscatter observations.
+- Compare satellite observations across different dates.
+- Investigate temporal backscatter differences.
+- Examine district-level statistical measurements.
+- Retrieve radar values for selected geographical locations.
+- Understand the scientific principles behind radar observations through an integrated Science Desk.
 
-## 2. Study Area
+The platform combines satellite data processing, geospatial analysis, scientific interpretation, and interactive web technologies into one centralized monitoring environment.
 
-**Location:** Faisalabad District, Punjab, Pakistan.
+## 2. Project Objectives
 
-The project uses a district boundary GeoJSON file to define the geographical study area. Satellite observations are extracted and analysed within this boundary.
+The primary objectives of Antheia are:
 
-The processing grid uses the WGS 84 / UTM Zone 43N projected coordinate reference system (EPSG:32643), with a source pixel spacing of approximately 10 metres.
+1. To explore the application of Synthetic Aperture Radar in agricultural and geographical monitoring.
+2. To process and visualize NASA–ISRO NISAR Level-2 GCOV observations.
+3. To compare HH and HV polarization measurements across different observation dates.
+4. To identify spatial and temporal variations in radar backscatter.
+5. To investigate radar observations at selected geographical locations.
+6. To implement geographical extraction and statistical analysis within a defined study area.
+7. To provide an accessible interface for understanding satellite-based scientific observations.
+8. To demonstrate how Earth observation data can be integrated into an interactive web-based analytical platform.
 
-## 3. Satellite Data
+## 3. Key Features
 
-Antheia uses NASA-ISRO NISAR Level-2 GCOV observations.
+### 3.1 Interactive Overview Dashboard
 
-NISAR is a joint mission of NASA and the Indian Space Research Organisation (ISRO). It uses Synthetic Aperture Radar technology to observe changes in Earth's surface.
+The Overview section provides a centralized summary of the current study.
 
-### Acquisition Details
+It displays important project measurements, including:
 
-| Parameter | Observation 1 | Observation 2 |
-|---|---|---|
-| Acquisition date | 30 October 2026 | 11 November 2026 |
-| Scene identifier | 034_084_A_017 | 035_084_A_017 |
-| Orbit direction | Ascending | Ascending |
-| Track | 84 | 84 |
-| Frame | 17 | 17 |
-| Absolute orbit | 6584 | 6757 |
-| Frequency | A | A |
-| Radar band | L-band | L-band |
-| Polarizations | HH, HV | HH, HV |
+- HH median backscatter change.
+- HV median backscatter change.
+- Radar frequency band.
+- Observation interval.
 
-**Observation interval:** 12 days.
+Current study results:
 
-Both observations cover the Faisalabad District study area and use compatible spatial grids, supporting pixel-based temporal comparison.
+| Measurement | Reported Value |
+|---|---:|
+| HH Median Change | -0.212 dB |
+| HV Median Change | -0.170 dB |
+| Radar Frequency | L-Band |
+| Observation Interval | 12 Days |
 
-### Radar Polarizations
+The displayed comparison covers observations from 30 October 2026 and 11 November 2026.
 
-The project processes two polarization channels:
+### 3.2 Interactive Study Area Map
 
-- **HH:** Horizontal transmission and horizontal reception.
-- **HV:** Horizontal transmission and vertical reception.
+Antheia incorporates an interactive geographical map focused on Faisalabad District.
 
-These channels provide different information about radar scattering characteristics and help users explore variations in the observed surface response.
+Users can explore the district boundary and select geographical locations to investigate their corresponding radar observations.
 
-## 4. Methodology
+The map functionality includes:
 
-Antheia follows a satellite data processing and analysis workflow consisting of the following stages.
+- Interactive geographical navigation.
+- District boundary visualization.
+- Location selection through map interaction.
+- Latitude and longitude retrieval.
+- District area calculation.
+- Geographical boundary validation.
 
-### Step 1 — Data Acquisition
+The system uses the selected coordinates to determine whether a location falls within the Faisalabad District boundary.
 
-The required NISAR Level-2 GCOV products are obtained from the NASA Alaska Satellite Facility Distributed Active Archive Center (ASF DAAC).
+When a valid location is selected, the platform retrieves its associated radar measurements.
 
-### Step 2 — Data Inspection
+### 3.3 Location-Based Radar Investigation
 
-The HDF5 products are inspected to identify the required datasets, including HH and HV covariance terms, geolocation information, coordinate grids, and quality masks.
+The Location Radar Investigation feature allows users to examine radar observations at individual geographical locations.
 
-### Step 3 — Study Area Extraction
+After selecting a location inside the district boundary, Antheia retrieves the available measurements for:
 
-The Faisalabad District boundary is loaded from GeoJSON and transformed into the satellite products' projected coordinate reference system.
+**HH Polarization**
+- 30 October observation.
+- 11 November observation.
+- Temporal difference.
 
-The corresponding satellite data region is extracted using the district boundary.
+**HV Polarization**
+- 30 October observation.
+- 11 November observation.
+- Temporal difference.
 
-### Step 4 — Quality Filtering
+The platform also displays the corresponding radar grid-cell information when available.
 
-Satellite data are screened using the available quality masks, valid subswath information, and numerical validity checks.
+This functionality connects geographical exploration with underlying satellite measurements.
 
-Invalid, missing, and non-positive observations are excluded from backscatter calculations.
+### 3.4 Radar Explorer
 
-### Step 5 — Backscatter Conversion
+The Radar Explorer provides visual access to processed radar backscatter observations.
 
-Valid linear radar backscatter values are converted into decibels using:
+Users can select between six visualization options:
 
-\[
-\text{Backscatter (dB)} = 10 \times \log_{10}(\text{linear backscatter})
-\]
+| Polarization | Observation |
+|---|---|
+| HH | 30 October 2026 |
+| HH | 11 November 2026 |
+| HH | Temporal Change |
+| HV | 30 October 2026 |
+| HV | 11 November 2026 |
+| HV | Temporal Change |
 
-### Step 6 — Temporal Comparison
+The selected visualization is dynamically displayed within the dashboard.
 
-The two acquisition dates are compared using their corresponding HH and HV observations.
+The feature also provides scientific explanations describing the selected polarization, observation period, and relevant interpretation considerations.
 
-Temporal change is calculated as:
+### 3.5 Temporal Comparison
 
-\[
-\text{Change (dB)} =
-\text{Backscatter}_{11\ November} -
-\text{Backscatter}_{30\ October}
-\]
+The Temporal Comparison section allows users to compare radar observations from two different acquisition dates.
 
-Negative values indicate a decrease in radar backscatter, while positive values indicate an increase.
+Users can switch between:
 
-### Step 7 — Statistical Analysis
+- HH Polarization.
+- HV Polarization.
 
-District-level statistics are calculated, including:
+The dashboard dynamically updates the corresponding earlier and later radar images.
 
+This feature helps investigate temporal variations in radar backscatter across the study area.
+
+A negative difference represents a decrease in the later radar backscatter value relative to the earlier observation, while a positive difference represents an increase.
+
+### 3.6 District Insights and Statistical Analysis
+
+The District Insights section presents statistical measurements generated from the processed radar observations.
+
+The dashboard retrieves statistical records from the Flask backend and dynamically populates the results table.
+
+The displayed parameters include:
+
+- Polarization.
+- Observation date.
 - Number of valid pixels.
 - Valid pixel coverage percentage.
-- Mean backscatter.
-- Minimum backscatter.
-- Maximum backscatter.
+- Mean backscatter in dB.
+- Minimum backscatter in dB.
+- Maximum backscatter in dB.
 
-### Step 8 — Visualization
+These measurements provide a numerical overview of the processed satellite observations across Faisalabad District.
 
-The processed observations and temporal differences are converted into spatial maps and presented through the Antheia interactive web dashboard.
+### 3.7 Methodology Section
 
-The dashboard provides visual and statistical information to support the exploration and interpretation of radar observations.
+The Methodology section explains the technical workflow behind Antheia.
 
-## 5. Project Results
+It presents four major stages:
 
-The two NISAR observations were successfully processed over Faisalabad District.
+**01 — Data Source**
 
-### Observed Backscatter Statistics
+NASA–ISRO NISAR Level-2 GCOV satellite observations.
 
-| Measurement | HH | HV |
-|---|---:|---:|
-| Mean — 30 October | -10.64 dB | -17.18 dB |
-| Mean — 11 November | -11.09 dB | -17.55 dB |
-| Mean temporal change | -0.43 dB | -0.35 dB |
-| Median temporal change | -0.212 dB | -0.170 dB |
+**02 — Radar Processing**
 
-The median temporal changes are based on the processed spatial comparison.
+Frequency A HH/HV backscatter observations, quality masking, and conversion into decibel measurements.
 
-The results show spatial variation in radar backscatter between the two acquisition dates. The generated change maps allow users to explore where increases and decreases occurred across the district.
+**03 — Spatial Analysis**
 
-### Data Coverage
+Faisalabad District polygon extraction and spatial aggregation.
 
-| Observation | Valid pixel coverage |
-|---|---:|
-| 30 October 2026 | Approximately 94.62% |
-| 11 November 2026 | Approximately 96.76% |
+**04 — Temporal Analysis**
 
-The temporal comparison uses common valid pixels from both acquisitions.
+Comparison of observations from 30 October and 11 November 2026 using common valid pixels.
 
-## 6. Antheia Interactive Dashboard
+### 3.8 Antheia Science Desk
 
-Antheia includes an interactive web dashboard developed using Flask, HTML, CSS, and JavaScript.
+The Science Desk is an integrated educational and scientific interpretation module introduced to make Antheia more than a conventional satellite visualization dashboard.
 
-The dashboard is designed to make satellite radar observations easier to explore, compare, and understand. It combines spatial visualization with statistical information and contextual scientific interpretation.
+It helps users understand the scientific concepts, radar measurements, and analytical decisions behind the project.
 
-### Dashboard Features
+#### Interactive Scientific Question and Answer System
 
-**Overview**
-- Project introduction and study area information.
-- Key radar change indicators.
-- Observation interval and acquisition information.
+Users can select questions from a dropdown menu and receive predefined explanations.
 
-**Radar Explorer**
-- HH and HV backscatter maps.
-- Visualization of both acquisition dates.
-- Interactive exploration of radar observations.
-- Radar interpretation that explains the selected visualization.
+The available topics include:
 
-**Interactive Study Area**
-- Geographic visualization of the Faisalabad District study area.
-- Interactive map-based exploration.
-- Location selection and investigation of radar values at selected coordinates.
+1. What is Antheia investigating?
+2. What do HH and HV mean?
+3. What is L-band radar?
+4. What is radar backscatter?
+5. What does a negative dB value mean?
+6. How should temporal change be understood?
+7. Why compare common valid pixels?
+8. What is NISAR?
+9. Can radar values independently establish crop health or soil moisture?
 
-**Temporal Comparison**
-- HH temporal change map.
-- HV temporal change map.
-- Comparison of observations from the two acquisition dates.
-- Explanation of positive and negative backscatter changes.
+The answers are dynamically updated using JavaScript without requiring a separate backend request.
 
-**District Insights**
-- Valid pixel counts.
-- Data coverage percentages.
-- Mean, minimum, and maximum backscatter statistics.
+#### Project Conclusion
 
-**Scientific Interpretation**
-- Contextual explanations of radar observations.
-- Interpretation of spatial and temporal backscatter variations.
-- Important limitations when drawing conclusions from radar measurements.
+The Science Desk presents the current study's reported median backscatter changes:
 
-**Methodology**
-- Satellite data source and observation information.
-- Radar processing details.
-- Spatial extraction and temporal analysis workflow.
+- HH: -0.212 dB
+- HV: -0.170 dB
 
-## 7. Technologies Used
+It explains what these differences indicate and clarifies what cannot be concluded from the measurements alone.
+
+#### Scientific Investigation Board
+
+The Investigation Board organizes the project's analytical work into three investigations.
+
+**Investigation 01 — Temporal Backscatter Analysis**
+
+Research question: Did the radar response change between the two acquisitions?
+
+Approach:
+- Compare HH and HV observations.
+- Examine the two acquisition dates.
+- Investigate temporal difference maps.
+- Review district-level statistics.
+
+**Investigation 02 — Polarization Comparison**
+
+Research question: Do HH and HV provide different views of the surface?
+
+Approach:
+- Examine co-polarized HH observations.
+- Examine cross-polarized HV observations.
+- Compare their temporal responses.
+- Understand their complementary scattering information.
+
+**Investigation 03 — Spatial Data Reliability**
+
+Research question: How does Antheia make the comparison more consistent?
+
+Approach:
+- Apply quality masking.
+- Extract the Faisalabad District boundary.
+- Compare observations using common valid pixels.
+- Restrict the analysis to the defined study area.
+
+The Science Desk therefore connects the technical processing workflow with the scientific questions the project investigates.
+
+---
+
+## 4. Technology Stack
+
+Antheia uses a combination of Python-based backend development, web technologies, and geospatial visualization tools.
 
 | Technology | Application |
 |---|---|
-| Python | Main processing language |
-| NumPy | Numerical calculations |
-| h5py | Reading NISAR HDF5 products |
-| Shapely | Geospatial boundary operations |
-| PyProj | Coordinate transformations |
-| Matplotlib | Radar map generation |
-| Flask | Web application backend |
-| HTML | Dashboard structure |
-| CSS | Dashboard styling |
-| JavaScript | Dashboard interactions |
-| Leaflet | Interactive geographic mapping |
-| Turf.js | Geospatial calculations |
-| GeoJSON | Study area boundary representation |
+| Python | Backend development and data processing |
+| Flask | Web application framework |
+| HTML5 | Dashboard structure |
+| CSS3 | Dashboard design and responsive layouts |
+| JavaScript | Interactive dashboard functionality |
+| Leaflet.js | Interactive geographical mapping |
+| Turf.js | Geospatial calculations and point-in-polygon analysis |
+| GeoJSON | Geographical boundary representation |
+| CSV | Statistical data exchange |
+| NASA–ISRO NISAR | Satellite observation source |
 
-## 8. Repository Structure
+### Frontend
 
-The main project directories and files are organized as follows:
+The frontend is developed using HTML, CSS, and JavaScript.
+
+It provides the user interface, navigation, interactive radar visualizations, geographical map, scientific explanations, and responsive dashboard components.
+
+### Backend
+
+The application uses Flask to serve the dashboard and provide data through backend routes.
+
+The JavaScript frontend communicates with the Flask application through HTTP requests to retrieve statistical, geographical, and location-specific information.
+
+### Geospatial Visualization
+
+Leaflet.js is used to display the interactive study area map.
+
+Turf.js supports geographical calculations, including district area estimation and checking whether selected coordinates fall inside the district boundary.
+
+---
+
+## 5. System Architecture
+
+Antheia follows a Python Flask-based web application architecture.
+
+The major components are:
+
+**1. Satellite Data Layer**
+
+Contains the NISAR observations used in the study.
+
+**2. Data Processing Layer**
+
+Processes radar observations, performs quality masking, extracts the study area, and generates the outputs required by the dashboard.
+
+**3. Backend Layer**
+
+The Flask application serves the dashboard and exposes the data retrieval endpoints.
+
+**4. Frontend Layer**
+
+HTML, CSS, and JavaScript provide the interactive interface.
+
+**5. Visualization and Analysis Layer**
+
+Displays radar images, geographical information, temporal comparisons, and statistical results.
+
+**6. Science Desk Layer**
+
+Provides predefined scientific explanations and organizes the project's investigations and conclusions.
+
+### Application Data Flow
+
+```text
+NASA–ISRO NISAR Observations
+              |
+              v
+      Radar Data Processing
+              |
+              v
+       Quality Masking
+              |
+              v
+     Spatial Data Extraction
+              |
+              v
+     Temporal Comparison
+              |
+              v
+       Processed Outputs
+              |
+              v
+       Python Flask Backend
+              |
+              v
+       Interactive Dashboard
+              |
+       +------+------+
+       |             |
+       v             v
+ Radar Analysis   Geospatial
+ and Statistics   Investigation
+       |             |
+       +------+------+
+              |
+              v
+       Antheia Science Desk
+```
+
+---
+
+## 6. Project Directory Structure
+
+The main application structure is organized as follows:
 
 ```text
 Antheia/
 │
-├── acquisition/
-│   ├── inspect_nisar.py
-│   └── search_nisar.py
-│
-├── analysis/
-│
-├── config/
-│
 ├── dashboard/
+│   │
 │   ├── app.py
+│   │
 │   ├── templates/
 │   │   └── index.html
+│   │
 │   └── static/
+│       │
 │       ├── css/
 │       │   └── style.css
+│       │
 │       └── js/
 │           └── dashboard.js
 │
-├── data/
-│   ├── raw/
-│   │   ├── product_2/
-│   │   └── product_6/
-│   └── reference/
-│       └── faisalabad_district.geojson
-│
-├── outputs/
-│   ├── data/
-│   ├── maps/
-│   ├── reports/
-│   ├── district_statistics.csv
-│   └── processing_summary.txt
-│
-├── processing/
-│
 ├── process_nisar.py
-├── requirements.txt
-├── .gitignore
+│
+├── maps/
+│   ├── HH_30_Oct.png
+│   ├── HH_11_Nov.png
+│   ├── HH_change.png
+│   ├── HV_30_Oct.png
+│   ├── HV_11_Nov.png
+│   └── HV_change.png
+│
 └── README.md
 ```
 
-The repository may contain additional scripts and configuration files as the project evolves.
+*Note: The directory tree illustrates the principal application files and expected visualization outputs. Additional data files, configuration files, and processing outputs may exist in the complete repository.*
 
-## 9. Installation and Setup
+---
+
+## 7. Backend API Endpoints
+
+The frontend communicates with the Flask backend through the following application endpoints.
+
+| Endpoint | Purpose |
+|---|---|
+| `/api/statistics` | Retrieves district-level statistical records |
+| `/api/study-area` | Retrieves the study area geographical boundary |
+| `/api/location-values` | Retrieves radar measurements for selected coordinates |
+| `/maps/` | Serves processed radar visualization images |
+
+### Location Investigation Request
+
+The location investigation functionality sends the selected geographical coordinates to the backend.
+
+Example request:
+
+```text
+/api/location-values?lat=31.4504&lon=73.1350
+```
+
+The frontend uses the returned measurements to display the HH and HV values for the selected location.
+
+The exact availability of a measurement depends on the underlying processed data.
+
+---
+
+## 8. Scientific Methodology
+
+Antheia investigates changes in radar backscatter using two NISAR observation dates.
+
+### 8.1 Radar Backscatter
+
+Radar backscatter represents the portion of transmitted microwave energy scattered back toward the satellite.
+
+Its measured strength can be influenced by:
+
+- Surface roughness.
+- Soil moisture conditions.
+- Vegetation structure.
+- Surface geometry.
+- Radar acquisition conditions.
+
+The dashboard displays processed backscatter values in decibels (dB).
+
+### 8.2 Polarization
+
+The project uses two radar polarization channels.
+
+**HH — Horizontal-Horizontal**
+
+The radar signal is transmitted horizontally and received horizontally.
+
+HH is a co-polarized measurement.
+
+**HV — Horizontal-Vertical**
+
+The radar signal is transmitted horizontally and received vertically.
+
+HV is a cross-polarized measurement.
+
+Both channels provide complementary information about the scattering characteristics of the observed surface.
+
+### 8.3 Temporal Backscatter Difference
+
+The project compares two observation dates:
+
+- Earlier observation: 30 October 2026.
+- Later observation: 11 November 2026.
+
+The temporal difference is calculated as:
+
+```text
+Change = Later Observation - Earlier Observation
+```
+
+A negative result indicates a decrease in backscatter between the observations.
+
+A positive result indicates an increase.
+
+### 8.4 Common Valid Pixels
+
+For a more consistent temporal comparison, the project uses common valid pixels.
+
+These are pixels containing valid observations in both acquisition periods.
+
+This approach helps prevent invalid or missing observations from being treated as meaningful temporal changes.
+
+Quality masking also helps exclude observations identified as unreliable.
+
+---
+
+## 9. Project Findings
+
+The current dashboard reports the following district-level median changes:
+
+| Polarization | Median Change |
+|---|---:|
+| HH | -0.212 dB |
+| HV | -0.170 dB |
+
+Both reported median changes are negative.
+
+This indicates that the later observation has a lower median backscatter value than the earlier observation for the reported comparisons.
+
+These findings demonstrate the platform's ability to process, compare, and visualize temporal radar observations.
+
+### Scientific Limitations
+
+Radar backscatter differences alone cannot establish:
+
+- A definite decrease in soil moisture.
+- A decline in crop health.
+- A specific vegetation change.
+- The exact physical cause of a radar signal difference.
+
+Backscatter is affected by multiple interacting surface and environmental factors.
+
+Further datasets, appropriate analytical models, and field observations would be necessary to investigate specific agricultural conditions.
+
+Antheia therefore presents radar-derived observations and analytical insights rather than claiming independently verified crop-health or soil-moisture measurements.
+
+---
+
+## 10. Installation and Execution
 
 ### Prerequisites
 
-- Python 3.11 recommended.
-- Git.
-- Visual Studio Code or another Python-compatible editor.
-- Internet access for installing dependencies and obtaining satellite data.
+Before running Antheia, ensure that you have:
+
+- Python installed.
+- Visual Studio Code or another code editor.
+- Git installed.
+- Access to the complete Antheia project directory.
+- The project's required Python packages.
 
 ### Step 1 — Clone the Repository
 
 ```bash
-git clone YOUR_GITHUB_REPOSITORY_URL
+git clone https://github.com/Maryam-qaisar/Antheia
 ```
 
-### Step 2 — Enter the Project Directory
+### Step 2 — Navigate to the Project
 
 ```bash
-cd antheia
+cd Antheia
 ```
 
-### Step 3 — Create a Virtual Environment
+### Step 3 — Install Dependencies
+
+If your repository contains a `requirements.txt` file, install the listed dependencies:
 
 ```bash
-python -m venv venv
+pip install -r requirements.txt
 ```
 
-### Step 4 — Activate the Environment
+### Step 4 — Run the Flask Application
 
-**Windows PowerShell:**
-
-```powershell
-venv\Scripts\activate
-```
-
-**macOS / Linux:**
-
-```bash
-source venv/bin/activate
-```
-
-### Step 5 — Install Dependencies
-
-```bash
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-```
-
-All required Python packages listed in `requirements.txt` will be installed.
-
-## 10. Satellite Data Preparation
-
-The original NISAR satellite products are not included in this GitHub repository because the HDF5 files are large.
-
-Users must obtain the corresponding NISAR Level-2 GCOV products through the NASA Alaska Satellite Facility (ASF DAAC).
-
-**Data access resources:**
-
-- NASA NISAR: https://nisar.jpl.nasa.gov/
-- ASF DAAC: https://asf.alaska.edu/
-- NASA Earthdata: https://www.earthdata.nasa.gov/
-
-Obtain the two acquisitions described in the Satellite Data section, ensuring that the correct scene identifiers, frequency, and polarizations are selected.
-
-Place the downloaded HDF5 products in the expected project directories:
-
-```text
-data/
-└── raw/
-    ├── product_2/
-    │   └── NISAR_HDF5_PRODUCT
-    │
-    └── product_6/
-        └── NISAR_HDF5_PRODUCT
-```
-
-The Faisalabad District GeoJSON boundary should be placed in:
-
-```text
-data/reference/faisalabad_district.geojson
-```
-
-**Note:** The original satellite files must be obtained separately. Access to NASA Earthdata services and any applicable data-access requirements may be necessary.
-
-## 11. Running the Processing Workflow
-
-After obtaining the satellite products and preparing the required directories:
-
-1. Activate the Python virtual environment.
-2. Place the two NISAR HDF5 products in their respective directories under `data/raw/`.
-3. Ensure the Faisalabad District GeoJSON boundary is available in `data/reference/`.
-4. Run the main processing script from the Antheia project root:
-
-```bash
-python process_nisar.py
-```
-
-The script processes the satellite observations and generates radar maps, district statistics, and a processing summary in the `outputs/` directory.
-
-Expected outputs include:
-
-- HH backscatter maps for both acquisition dates.
-- HV backscatter maps for both acquisition dates.
-- HH and HV temporal change maps.
-- District-level statistics CSV.
-- Processing summary report.
-- Processed numerical data in NPZ format.
-
-## 12. Launching the Dashboard
-
-After the required processing outputs have been generated, run the Flask application from the main project directory:
+From the project root directory:
 
 ```bash
 python dashboard/app.py
 ```
 
-Open the following address in a web browser:
+### Step 5 — Open the Dashboard
+
+Visit the following address in your browser:
 
 ```text
 http://127.0.0.1:5000
 ```
 
-The dashboard reads the generated maps and district statistics from the project's outputs directory.
+The Antheia dashboard should now be accessible locally.
 
-## 13. Understanding the Results
-
-Radar backscatter represents the portion of transmitted radar energy scattered back toward the satellite.
-
-Changes in backscatter can be influenced by several factors, including:
-
-- Surface moisture conditions.
-- Vegetation structure.
-- Surface roughness.
-- Land management activities.
-- Acquisition and measurement conditions.
-
-Positive changes indicate an increase in measured backscatter, while negative changes indicate a decrease.
-
-### Scientific Limitations
-
-Changes in radar backscatter alone cannot establish crop health, identify a specific crop condition, directly measure soil moisture, or confirm irrigation events.
-
-These interpretations require additional datasets and validation.
-
-Antheia should therefore be understood as a radar-based monitoring and exploratory analysis platform rather than a standalone agricultural diagnostic system.
-
-## 14. Future Development
-
-Potential future improvements include:
-
-- Integration of additional NISAR observations.
-- Longer-term temporal analysis.
-- Integration of optical satellite imagery.
-- Comparison with rainfall and weather observations.
-- Integration of field-based agricultural measurements.
-- More detailed land-cover and crop-specific analysis.
-- Automated monitoring and reporting.
-
-## 15. Acknowledgements and Data Sources
-
-Antheia uses satellite observations from the NASA-ISRO NISAR mission.
-
-We acknowledge:
-
-- **NASA** — National Aeronautics and Space Administration.
-- **ISRO** — Indian Space Research Organisation.
-- **ASF DAAC** — Alaska Satellite Facility Distributed Active Archive Center.
-- **NASA Earthdata** — Satellite data access and distribution resources.
-
-The project was developed by **Team Orbit IQ** as part of the **NASA Space Apps Challenge 2026**.
+*Note: The processed radar outputs and required geographical and statistical data must also be available in their expected locations for the corresponding dashboard features to work.*
 
 ---
 
-**Antheia — Exploring Agricultural Landscapes Through Satellite Radar Intelligence.**
+## 11. User Interaction Workflow
+
+A typical Antheia user workflow is:
+
+1. Open the application and view the introductory Earth animation.
+2. Explore the Overview section and examine the district-level measurements.
+3. Navigate to the Interactive Study Area.
+4. Select a geographical location within Faisalabad District.
+5. Examine the retrieved HH and HV radar measurements.
+6. Open the Radar Explorer to inspect individual observations.
+7. Use Temporal Comparison to investigate differences between dates.
+8. Review District Insights for statistical measurements.
+9. Explore the Methodology section to understand the processing workflow.
+10. Visit the Science Desk to understand the scientific concepts and project findings.
+
+---
+
+## 12. Future Development Opportunities
+
+Antheia provides a foundation for further development in satellite-based agricultural monitoring.
+
+Potential future improvements include:
+
+- Integration of additional NISAR acquisition dates.
+- Long-term temporal backscatter monitoring.
+- Integration of optical satellite datasets.
+- Vegetation index analysis using complementary satellite observations.
+- Soil-moisture estimation using appropriate validated methodologies.
+- Advanced spatial and temporal anomaly detection.
+- Machine learning-based classification experiments.
+- Improved location-based analytical reporting.
+- Automated generation of scientific observation summaries.
+- AI-assisted explanations of satellite-derived measurements.
+
+These improvements could expand the platform from a two-date radar investigation into a more comprehensive Earth observation and agricultural analysis system.
+
+---
+
+## 13. Project Significance
+
+Antheia demonstrates how satellite Earth observation data can be transformed into an accessible analytical environment.
+
+The project brings together:
+
+- Remote sensing.
+- Synthetic Aperture Radar.
+- Geospatial analysis.
+- Temporal data comparison.
+- Statistical processing.
+- Interactive web development.
+- Scientific communication.
+
+By combining these components, Antheia provides an interactive environment for exploring how radar observations can support geographical and agricultural investigations.
+
+The addition of the Science Desk further improves the platform by connecting technical outputs with scientific concepts, interpretations, and limitations.
+
+---
+
+## 14. Acknowledgements
+
+The project uses observations from the **NASA–ISRO Synthetic Aperture Radar (NISAR)** mission.
+
+The project acknowledges the work of the NASA and ISRO teams involved in developing and operating the mission and making its Earth observation data available.
+
+Technologies and libraries used include Python, Flask, Leaflet.js, Turf.js, HTML5, CSS3, and JavaScript.
+
+---
+
+
+
+## 15. About ORBIT IQ
+
+**Antheia — Satellite Intelligence for Agricultural Monitoring**
+
+Developed by **ORBIT IQ**.
+
+A scientific prototype exploring the use of NISAR L-band radar observations for spatial and temporal analysis across Faisalabad District, Pakistan.
+
+**Observe. Analyze. Understand.**
