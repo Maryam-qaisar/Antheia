@@ -106,6 +106,10 @@
             <a href="#methodology" class="nav-link">
                 <span>⌘</span> Methodology
             </a>
+
+            <a href="#science-desk" class="nav-link">
+                <span>✧</span> Science Desk
+            </a>
         </nav>
 
         <div class="sidebar-bottom">
@@ -692,6 +696,246 @@
                         Difference between 30 October and
                         11 November 2026 using common valid pixels.
                     </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ANTHEIA SCIENCE DESK -->
+        <section id="science-desk" class="section">
+
+            <div class="section-heading">
+                <div>
+                    <span class="eyebrow">LEARN · INVESTIGATE · INTERPRET</span>
+                    <h2>Antheia Science Desk</h2>
+                    <p>
+                        Understand the radar concepts, explore the investigations,
+                        and read the findings in plain language.
+                    </p>
+                </div>
+                <div class="date-badge">RESEARCH NOTES</div>
+            </div>
+
+            <div class="science-desk-grid">
+
+                <div class="panel science-qa-panel">
+                    <div class="panel-header">
+                        <div>
+                            <h3>Ask the Science Desk</h3>
+                            <p class="control-caption">
+                                Choose a question to reveal a clear explanation.
+                            </p>
+                        </div>
+                        <span class="tag">QUICK ANSWERS</span>
+                    </div>
+
+                    <label class="science-question-label" for="science-question">
+                        SELECT A QUESTION
+                    </label>
+
+                    <select id="science-question" class="science-question-select">
+                        <option value="project">What is Antheia investigating?</option>
+                        <option value="hh-hv">What do HH and HV mean?</option>
+                        <option value="lband">What is L-band radar?</option>
+                        <option value="backscatter">What is radar backscatter?</option>
+                        <option value="decibels">What does a negative dB value mean?</option>
+                        <option value="change">How should I understand temporal change?</option>
+                        <option value="valid-pixels">Why compare common valid pixels?</option>
+                        <option value="nisar">What is NISAR?</option>
+                        <option value="limitations">Can these values tell us crop health or soil moisture?</option>
+                    </select>
+
+                    <div class="science-answer" aria-live="polite">
+                        <span class="eyebrow">EXPLANATION</span>
+
+                        <h4 id="science-answer-title">
+                            What is Antheia investigating?
+                        </h4>
+
+                        <p id="science-answer-text">
+                            Antheia explores spatial and temporal variations in
+                            NASA-ISRO NISAR L-band HH and HV radar backscatter
+                            across Faisalabad District.
+                        </p>
+                    </div>
+                </div>
+
+
+                <div class="panel science-conclusion-panel">
+
+                    <div class="panel-header">
+                        <h3>Project Conclusion</h3>
+                        <span class="tag">CURRENT STUDY</span>
+                    </div>
+
+                    <p>
+                        Antheia demonstrates how satellite radar observations can
+                        be processed and compared to identify changes in the radar
+                        response across Faisalabad District.
+                    </p>
+
+                    <div class="conclusion-metrics">
+
+                        <div>
+                            <span>HH MEDIAN CHANGE</span>
+                            <strong>−0.212 dB</strong>
+                        </div>
+
+                        <div>
+                            <span>HV MEDIAN CHANGE</span>
+                            <strong>−0.170 dB</strong>
+                        </div>
+
+                    </div>
+
+                    <p>
+                        Both displayed district median changes are negative,
+                        meaning the later observation has a lower median
+                        backscatter value than the earlier observation for these
+                        comparisons.
+                    </p>
+
+                    <div class="scientific-note">
+                        <strong>What this conclusion does not claim</strong>
+
+                        <p>
+                            These radar differences do not, by themselves, prove
+                            that soil moisture or crop health decreased, or explain
+                            why the signal changed. Additional datasets and
+                            field observations would be needed to test those causes.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SCIENTIFIC INVESTIGATION BOARD -->
+            <div class="panel investigation-board">
+
+                <div class="panel-header">
+                    <div>
+                        <h3>Scientific Investigation Board</h3>
+                        <p class="control-caption">
+                            Three investigations that connect the processing
+                            workflow to the questions the data can answer.
+                        </p>
+                    </div>
+
+                    <span class="tag">ANALYSIS</span>
+                </div>
+
+
+                <div class="investigation-grid">
+
+                    <article class="investigation-card">
+
+                        <span class="investigation-number">01</span>
+
+                        <h4>Temporal Backscatter Analysis</h4>
+
+                        <p class="investigation-question">
+                            Did the radar response change between the two acquisitions?
+                        </p>
+
+                        <div>
+                            <strong>Approach</strong>
+                            <p>
+                                Compare HH and HV observations from 30 October
+                                and 11 November 2026, then examine their
+                                difference maps and district statistics.
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong>Finding</strong>
+                            <p>
+                                The dashboard reports median changes of
+                                −0.212 dB for HH and −0.170 dB for HV.
+                            </p>
+                        </div>
+
+                        <div class="investigation-caveat">
+                            The change describes the radar signal, not a proven
+                            change in a specific ground condition.
+                        </div>
+
+                    </article>
+
+
+                    <article class="investigation-card">
+
+                        <span class="investigation-number">02</span>
+
+                        <h4>Polarization Comparison</h4>
+
+                        <p class="investigation-question">
+                            Do HH and HV provide different views of the surface?
+                        </p>
+
+                        <div>
+                            <strong>Approach</strong>
+                            <p>
+                                Examine co-polarized HH and cross-polarized HV
+                                maps and compare their temporal responses.
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong>Finding</strong>
+                            <p>
+                                The two polarizations provide complementary
+                                radar observations. Their responses can be
+                                influenced by different scattering mechanisms.
+                            </p>
+                        </div>
+
+                        <div class="investigation-caveat">
+                            A difference between HH and HV is not, on its own,
+                            a crop classification or vegetation-health result.
+                        </div>
+
+                    </article>
+
+
+                    <article class="investigation-card">
+
+                        <span class="investigation-number">03</span>
+
+                        <h4>Spatial Data Reliability</h4>
+
+                        <p class="investigation-question">
+                            How does Antheia make the comparison more consistent?
+                        </p>
+
+                        <div>
+                            <strong>Approach</strong>
+                            <p>
+                                Apply quality masking, extract the Faisalabad
+                                boundary, and compare temporal observations
+                                using common valid pixels.
+                            </p>
+                        </div>
+
+                        <div>
+                            <strong>Finding</strong>
+                            <p>
+                                The workflow restricts analysis to the study
+                                area and uses pixels valid in both observations
+                                for temporal comparison.
+                            </p>
+                        </div>
+
+                        <div class="investigation-caveat">
+                            Masking improves comparability but does not remove
+                            every source of measurement uncertainty.
+                        </div>
+
+                    </article>
+
                 </div>
 
             </div>

@@ -680,6 +680,157 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     }
+    /* =====================================
+       8. ANTHEIA SCIENCE DESK
+    ===================================== */
 
+    const scienceQuestion =
+        document.getElementById("science-question");
+
+    const scienceAnswerTitle =
+        document.getElementById("science-answer-title");
+
+    const scienceAnswerText =
+        document.getElementById("science-answer-text");
+
+
+    // Predefined scientific questions and answers
+
+    const scienceAnswers = {
+
+        "project": {
+
+            title: "What is Antheia investigating?",
+
+            answer:
+                "Antheia explores spatial and temporal variations in NASA-ISRO NISAR L-band HH and HV radar backscatter across Faisalabad District. It compares observations from 30 October and 11 November 2026, a 12-day interval."
+
+        },
+
+
+        "hh-hv": {
+
+            title: "What do HH and HV mean?",
+
+            answer:
+                "HH means the radar signal is transmitted horizontally and received horizontally. It is co-polarized. HV means the signal is transmitted horizontally and received vertically. It is cross-polarized. The two channels provide complementary information about how the surface scatters radar energy."
+
+        },
+
+
+        "lband": {
+
+            title: "What is L-band radar?",
+
+            answer:
+                "L-band is a microwave radar frequency band with a relatively long wavelength. It can interact with vegetation and the ground surface, but the measured response depends on several factors, including surface structure, moisture, geometry and vegetation."
+
+        },
+
+
+        "backscatter": {
+
+            title: "What is radar backscatter?",
+
+            answer:
+                "Backscatter is the portion of the transmitted radar energy that is scattered back toward the satellite. Its strength is influenced by the properties and arrangement of the surface. Antheia displays the processed backscatter values in decibels (dB)."
+
+        },
+
+
+        "decibels": {
+
+            title: "What does a negative dB value mean?",
+
+            answer:
+                "A negative backscatter value is common when radar power is expressed on a logarithmic decibel scale. It does not mean negative soil moisture or a negative amount of vegetation. Interpret it as a radar signal measurement, and compare values using the same processing and units."
+
+        },
+
+
+        "change": {
+
+            title: "How should I understand temporal change?",
+
+            answer:
+                "Temporal change is the later backscatter value minus the earlier value. A positive result means the radar backscatter increased; a negative result means it decreased. This identifies a change in the radar response, not the exact physical reason for that change."
+
+        },
+
+
+        "valid-pixels": {
+
+            title: "Why compare common valid pixels?",
+
+            answer:
+                "A temporal comparison is more consistent when it uses pixels that contain valid observations in both dates. Common-valid-pixel comparison avoids treating a pixel as a change when one of its observations is missing or invalid. Quality masking also helps exclude pixels marked as unreliable."
+
+        },
+
+
+        "nisar": {
+
+            title: "What is NISAR?",
+
+            answer:
+                "NISAR is the NASA-ISRO Synthetic Aperture Radar mission. It uses radar observations to study changes and characteristics of Earth's land and ice surfaces. Antheia uses the supplied NISAR Level-2 GCOV L-band observations for this Faisalabad study."
+
+        },
+
+
+        "limitations": {
+
+            title: "Can these values tell us crop health or soil moisture?",
+
+            answer:
+                "Not by themselves. Radar backscatter can be affected by soil moisture, surface roughness, vegetation structure and other conditions. Antheia identifies radar-signal patterns and changes; confirming crop health or soil moisture requires supporting datasets, suitable models and/or field validation."
+
+        }
+
+    };
+
+
+    // Update the displayed answer when a question is selected
+
+    function updateScienceAnswer() {
+
+        if (
+            !scienceQuestion ||
+            !scienceAnswerTitle ||
+            !scienceAnswerText
+        ) {
+            return;
+        }
+
+        const selectedAnswer =
+            scienceAnswers[scienceQuestion.value];
+
+        if (!selectedAnswer) {
+            return;
+        }
+
+        scienceAnswerTitle.textContent =
+            selectedAnswer.title;
+
+        scienceAnswerText.textContent =
+            selectedAnswer.answer;
+
+    }
+
+
+    // Listen for question selection
+
+    if (scienceQuestion) {
+
+        scienceQuestion.addEventListener(
+            "change",
+            updateScienceAnswer
+        );
+
+        // Display the first answer when the page loads
+
+        updateScienceAnswer();
+
+    }
 
 });
