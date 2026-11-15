@@ -280,7 +280,7 @@ try:
                 source_start:source_end,
                 col_start:col_end
             ]
-
+            
             # Valid subswath values are 1 through 254.
             valid_subswath = (
                 (subswath >= 1) & (subswath <= 254)
