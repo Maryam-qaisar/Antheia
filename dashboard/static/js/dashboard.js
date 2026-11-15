@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================================
@@ -12,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!response.ok) {
                 throw new Error("Could not load statistics.");
             }
-
             return response.json();
         })
         .then(records => {
@@ -38,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 columns.forEach(column => {
 
                     const cell = document.createElement("td");
-
                     let value = record[column];
 
                     if (value === null || value === undefined || value === "") {
@@ -115,7 +112,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 "This is an observation from a single acquisition. Backscatter values should not be interpreted as direct soil-moisture or crop-health measurements."
         },
 
-
         "HH_11_Nov.png": {
             title: "HH Backscatter — 11 November 2026",
 
@@ -125,7 +121,6 @@ document.addEventListener("DOMContentLoaded", function () {
             note:
                 "Differences may reflect several surface and environmental factors. Additional observations and supporting datasets are required to identify their physical causes."
         },
-
 
         "HH_change.png": {
             title: "HH Temporal Change — 12 Days",
@@ -137,7 +132,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 "A change in HH backscatter does not independently identify changes in soil moisture, crop condition or land management."
         },
 
-
         "HV_30_Oct.png": {
             title: "HV Backscatter — 30 October 2026",
 
@@ -148,7 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 "HV backscatter is influenced by multiple scattering mechanisms and should not be treated as a direct vegetation-health measurement."
         },
 
-
         "HV_11_Nov.png": {
             title: "HV Backscatter — 11 November 2026",
 
@@ -158,7 +151,6 @@ document.addEventListener("DOMContentLoaded", function () {
             note:
                 "Differences between observations may result from vegetation, surface conditions, moisture and other factors. Further evidence is needed for causal interpretation."
         },
-
 
         "HV_change.png": {
             title: "HV Temporal Change — 12 Days",
@@ -202,11 +194,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (radarSelector) {
-
         radarSelector.addEventListener("change", updateRadarExplorer);
-
         updateRadarExplorer();
-
     }
 
 
@@ -249,11 +238,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     if (comparisonSelector) {
-
         comparisonSelector.addEventListener("change", updateComparison);
-
         updateComparison();
-
     }
 
 
@@ -263,210 +249,153 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const mapElement = document.getElementById("study-area-map");
 
-    if (!mapElement) return;
+    let map = null;
 
-    if (typeof L === "undefined") {
+    if (mapElement) {
 
-        console.error("Leaflet library is not loaded.");
-        return;
+        if (typeof L === "undefined") {
 
-    }
+            console.error("Leaflet library is not loaded.");
 
-    if (typeof turf === "undefined") {
+        } else if (typeof turf === "undefined") {
 
-        console.error("Turf.js library is not loaded.");
-        return;
+            console.error("Turf.js library is not loaded.");
 
-    }
+        } else {
 
+            map = L.map("study-area-map");
 
-    const map = L.map("study-area-map");
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-
-        attribution: "&copy; OpenStreetMap contributors",
-        maxZoom: 19
-
-    }).addTo(map);
-
-
-    let studyAreaData = null;
-
-
-    /* =====================================
-       5. LOAD DISTRICT BOUNDARY
-    ===================================== */
-
-    fetch("/api/study-area")
-
-        .then(response => {
-
-            if (!response.ok) {
-                throw new Error("Unable to load district boundary.");
-            }
-
-            return response.json();
-
-        })
-
-        .then(geojson => {
-
-            studyAreaData = geojson;
-
-            const boundaryLayer = L.geoJSON(studyAreaData, {
-
-                style: {
-
-                    color: "#8b5cf6",
-                    weight: 3,
-                    fillColor: "#8b5cf6",
-                    fillOpacity: 0.15
-
-                }
+                attribution: "&copy; OpenStreetMap contributors",
+                maxZoom: 19
 
             }).addTo(map);
 
 
-            map.fitBounds(boundaryLayer.getBounds());
+            let studyAreaData = null;
 
 
-            /* DISTRICT AREA */
+            /* =====================================
+               5. LOAD DISTRICT BOUNDARY
+            ===================================== */
 
-            const districtArea = turf.area(studyAreaData) / 1000000;
+            fetch("/api/study-area")
 
-            const areaElement = document.getElementById("district-area");
+                .then(response => {
 
-            if (areaElement) {
-
-                areaElement.textContent =
-                    districtArea.toFixed(2) + " km²";
-
-            }
-
-
-            /* MAP CLICK EVENT */
-
-            map.on("click", function (event) {
-
-                if (!studyAreaData) return;
-
-                const latitude = event.latlng.lat;
-                const longitude = event.latlng.lng;
-
-
-                const clickedPoint = turf.point([
-                    longitude,
-                    latitude
-                ]);
-
-
-                const features =
-                    studyAreaData.type === "FeatureCollection"
-                        ? studyAreaData.features
-                        : [studyAreaData];
-
-
-                const insideDistrict = features.some(feature => {
-
-                    return turf.booleanPointInPolygon(
-                        clickedPoint,
-                        feature
-                    );
-
-                });
-
-
-                /* DISPLAY SELECTED COORDINATES */
-
-                const selectedLocation =
-                    document.getElementById("selected-location");
-
-                const latitudeElement =
-                    document.getElementById("latitude");
-
-                const longitudeElement =
-                    document.getElementById("longitude");
-
-
-                if (latitudeElement) {
-                    latitudeElement.textContent = latitude.toFixed(5);
-                }
-
-                if (longitudeElement) {
-                    longitudeElement.textContent = longitude.toFixed(5);
-                }
-
-
-                if (selectedLocation) {
-
-                    selectedLocation.textContent = insideDistrict
-                        ? "Inside Faisalabad District"
-                        : "Outside District Boundary";
-
-                }
-
-
-                const investigationPanel =
-                    document.getElementById("location-investigation");
-
-
-                if (!insideDistrict) {
-
-                    if (investigationPanel) {
-                        investigationPanel.style.display = "none";
+                    if (!response.ok) {
+                        throw new Error("Unable to load district boundary.");
                     }
 
-                    return;
+                    return response.json();
 
-                }
+                })
 
+                .then(geojson => {
 
-                /* SHOW RADAR INVESTIGATION */
+                    studyAreaData = geojson;
 
-                if (investigationPanel) {
-                    investigationPanel.style.display = "block";
-                }
+                    const boundaryLayer = L.geoJSON(studyAreaData, {
 
+                        style: {
 
-                const statusElement =
-                    document.getElementById("location-status");
+                            color: "#8b5cf6",
+                            weight: 3,
+                            fillColor: "#8b5cf6",
+                            fillOpacity: 0.15
 
-                if (statusElement) {
-                    statusElement.textContent =
-                        "Loading radar observations...";
-                }
-
-
-                const gridElement =
-                    document.getElementById("grid-location");
-
-                if (gridElement) {
-                    gridElement.textContent = "Retrieving grid information...";
-                }
-
-
-                /* RETRIEVE RADAR VALUES */
-
-                fetch(
-                    `/api/location-values?lat=${latitude}&lon=${longitude}`
-                )
-
-                    .then(response => {
-
-                        if (!response.ok) {
-                            throw new Error("Unable to retrieve location data.");
                         }
 
-                        return response.json();
+                    }).addTo(map);
 
-                    })
 
-                    .then(result => {
+                    map.fitBounds(boundaryLayer.getBounds());
 
-                        if (result.error) {
 
-                            if (statusElement) {
-                                statusElement.textContent = result.error;
+                    /* DISTRICT AREA */
+
+                    const districtArea = turf.area(studyAreaData) / 1000000;
+
+                    const areaElement =
+                        document.getElementById("district-area");
+
+                    if (areaElement) {
+                        areaElement.textContent =
+                            districtArea.toFixed(2) + " km²";
+                    }
+
+
+                    /* MAP CLICK EVENT */
+
+                    map.on("click", function (event) {
+
+                        if (!studyAreaData) return;
+
+                        const latitude = event.latlng.lat;
+                        const longitude = event.latlng.lng;
+
+
+                        const clickedPoint = turf.point([
+                            longitude,
+                            latitude
+                        ]);
+
+
+                        const features =
+                            studyAreaData.type === "FeatureCollection"
+                                ? studyAreaData.features
+                                : [studyAreaData];
+
+
+                        const insideDistrict = features.some(feature => {
+
+                            return turf.booleanPointInPolygon(
+                                clickedPoint,
+                                feature
+                            );
+
+                        });
+
+
+                        /* DISPLAY SELECTED COORDINATES */
+
+                        const selectedLocation =
+                            document.getElementById("selected-location");
+
+                        const latitudeElement =
+                            document.getElementById("latitude");
+
+                        const longitudeElement =
+                            document.getElementById("longitude");
+
+
+                        if (latitudeElement) {
+                            latitudeElement.textContent = latitude.toFixed(5);
+                        }
+
+                        if (longitudeElement) {
+                            longitudeElement.textContent = longitude.toFixed(5);
+                        }
+
+
+                        if (selectedLocation) {
+
+                            selectedLocation.textContent = insideDistrict
+                                ? "Inside Faisalabad District"
+                                : "Outside District Boundary";
+
+                        }
+
+
+                        const investigationPanel =
+                            document.getElementById("location-investigation");
+
+
+                        if (!insideDistrict) {
+
+                            if (investigationPanel) {
+                                investigationPanel.style.display = "none";
                             }
 
                             return;
@@ -474,105 +403,167 @@ document.addEventListener("DOMContentLoaded", function () {
                         }
 
 
-                        const measurements = result.measurements;
+                        /* SHOW RADAR INVESTIGATION */
 
-
-                        function displayValue(value) {
-
-                            if (
-                                value === null ||
-                                value === undefined ||
-                                !Number.isFinite(Number(value))
-                            ) {
-
-                                return "Unavailable";
-
-                            }
-
-                            return Number(value).toFixed(4) + " dB";
-
+                        if (investigationPanel) {
+                            investigationPanel.style.display = "block";
                         }
 
 
-                        /* HH VALUES */
-
-                        document.getElementById("hh-oct").textContent =
-                            displayValue(measurements.hh_30_oct);
-
-                        document.getElementById("hh-nov").textContent =
-                            displayValue(measurements.hh_11_nov);
-
-                        document.getElementById("hh-change").textContent =
-                            displayValue(measurements.hh_change);
-
-
-                        /* HV VALUES */
-
-                        document.getElementById("hv-oct").textContent =
-                            displayValue(measurements.hv_30_oct);
-
-                        document.getElementById("hv-nov").textContent =
-                            displayValue(measurements.hv_11_nov);
-
-                        document.getElementById("hv-change").textContent =
-                            displayValue(measurements.hv_change);
-
-
-                        /* STATUS */
+                        const statusElement =
+                            document.getElementById("location-status");
 
                         if (statusElement) {
-
                             statusElement.textContent =
-                                result.status || "Radar observations retrieved.";
-
+                                "Loading radar observations...";
                         }
 
 
-                        /* GRID INFORMATION */
+                        const gridElement =
+                            document.getElementById("grid-location");
 
-                        if (gridElement && result.grid_cell) {
-
+                        if (gridElement) {
                             gridElement.textContent =
-                                "Grid cell: Row " + result.grid_cell.row +
-                                ", Column " + result.grid_cell.column +
-                                " | Resolution: " + result.grid_cell.resolution;
-
+                                "Retrieving grid information...";
                         }
 
-                    })
 
-                    .catch(error => {
+                        /* RETRIEVE RADAR VALUES */
 
-                        console.error("Location radar error:", error);
+                        fetch(
+                            `/api/location-values?lat=${latitude}&lon=${longitude}`
+                        )
 
-                        if (statusElement) {
+                            .then(response => {
 
-                            statusElement.textContent =
-                                "Unable to retrieve radar observations.";
+                                if (!response.ok) {
+                                    throw new Error(
+                                        "Unable to retrieve location data."
+                                    );
+                                }
 
-                        }
+                                return response.json();
+
+                            })
+
+                            .then(result => {
+
+                                if (result.error) {
+
+                                    if (statusElement) {
+                                        statusElement.textContent = result.error;
+                                    }
+
+                                    return;
+
+                                }
+
+
+                                const measurements = result.measurements;
+
+
+                                function displayValue(value) {
+
+                                    if (
+                                        value === null ||
+                                        value === undefined ||
+                                        !Number.isFinite(Number(value))
+                                    ) {
+                                        return "Unavailable";
+                                    }
+
+                                    return Number(value).toFixed(4) + " dB";
+
+                                }
+
+
+                                /* HH VALUES */
+
+                                document.getElementById("hh-oct").textContent =
+                                    displayValue(measurements.hh_30_oct);
+
+                                document.getElementById("hh-nov").textContent =
+                                    displayValue(measurements.hh_11_nov);
+
+                                document.getElementById("hh-change").textContent =
+                                    displayValue(measurements.hh_change);
+
+
+                                /* HV VALUES */
+
+                                document.getElementById("hv-oct").textContent =
+                                    displayValue(measurements.hv_30_oct);
+
+                                document.getElementById("hv-nov").textContent =
+                                    displayValue(measurements.hv_11_nov);
+
+                                document.getElementById("hv-change").textContent =
+                                    displayValue(measurements.hv_change);
+
+
+                                /* STATUS */
+
+                                if (statusElement) {
+
+                                    statusElement.textContent =
+                                        result.status ||
+                                        "Radar observations retrieved.";
+
+                                }
+
+
+                                /* GRID INFORMATION */
+
+                                if (gridElement && result.grid_cell) {
+
+                                    gridElement.textContent =
+                                        "Grid cell: Row " +
+                                        result.grid_cell.row +
+                                        ", Column " +
+                                        result.grid_cell.column +
+                                        " | Resolution: " +
+                                        result.grid_cell.resolution;
+
+                                }
+
+                            })
+
+                            .catch(error => {
+
+                                console.error("Location radar error:", error);
+
+                                if (statusElement) {
+
+                                    statusElement.textContent =
+                                        "Unable to retrieve radar observations.";
+
+                                }
+
+                            });
 
                     });
 
-            });
+                })
 
-        })
+                .catch(error => {
 
-        .catch(error => {
+                    console.error("Study area map error:", error);
 
-            console.error("Study area map error:", error);
+                    const selectedLocation =
+                        document.getElementById("selected-location");
 
-            const selectedLocation =
-                document.getElementById("selected-location");
+                    if (selectedLocation) {
 
-            if (selectedLocation) {
+                        selectedLocation.textContent =
+                            "Unable to load district boundary";
 
-                selectedLocation.textContent =
-                    "Unable to load district boundary";
+                    }
 
-            }
+                });
 
-        });
+        }
+
+    }
 
 
     /* =====================================
@@ -587,9 +578,7 @@ document.addEventListener("DOMContentLoaded", function () {
         link.addEventListener("click", function () {
 
             navigationLinks.forEach(item => {
-
                 item.classList.remove("active");
-
             });
 
             link.classList.add("active");
@@ -597,6 +586,100 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
     });
+
+
+    /* =====================================
+       7. CINEMATIC EARTH INTRO
+    ===================================== */
+
+    const introScreen = document.getElementById("intro-screen");
+    const skipButton = document.getElementById("intro-skip");
+
+    let introFinished = false;
+    let introTimer = null;
+
+
+    function finishIntro() {
+
+        if (introFinished) return;
+
+        introFinished = true;
+
+        if (introTimer) {
+            clearTimeout(introTimer);
+        }
+
+        if (!introScreen) {
+            document.body.classList.remove("intro-active");
+            document.body.classList.add("intro-finished");
+            return;
+        }
+
+
+        introScreen.classList.add("launching");
+
+
+        setTimeout(function () {
+
+            introScreen.classList.add("is-hidden");
+
+            document.body.classList.remove("intro-active");
+            document.body.classList.add("intro-finished");
+
+
+            /*
+             * Leaflet needs a resize event after the
+             * dashboard becomes visible.
+             */
+
+            setTimeout(function () {
+
+                window.dispatchEvent(new Event("resize"));
+
+            }, 250);
+
+
+            window.dispatchEvent(
+                new Event("antheia-dashboard-revealed")
+            );
+
+        }, 1350);
+
+    }
+
+
+    if (introScreen) {
+
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+
+            finishIntro();
+
+        } else {
+
+            introTimer = setTimeout(function () {
+
+                finishIntro();
+
+            }, 3900);
+
+        }
+
+    } else {
+
+        document.body.classList.remove("intro-active");
+
+    }
+
+
+    if (skipButton) {
+
+        skipButton.addEventListener("click", function () {
+
+            finishIntro();
+
+        });
+
+    }
 
 
 });
